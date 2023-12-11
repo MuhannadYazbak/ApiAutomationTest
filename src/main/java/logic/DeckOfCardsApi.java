@@ -20,29 +20,53 @@ public class DeckOfCardsApi {
         return objectMapper.readValue(json, valueType);
     }
 
-    public ResponseWrapper<String> shuffleDeck(String deckId) throws IOException {
+    public ResponseWrapper<NewDeckResponse> shuffleDeck(String deckId) throws IOException {
         String url = String.format("%s/%s/shuffle/", baseUrl, deckId);
-        return executeGetRequest(url);
+        ResponseWrapper<String> rawResponse = executeGetRequest(url);
+        return new ResponseWrapper<>(
+                rawResponse.getStatusCode(),
+                mapJsonToType(rawResponse.getData(), NewDeckResponse.class),
+                rawResponse.getErrorMessage()
+        );
     }
-
-    public ResponseWrapper<String> createNewDeck() throws IOException {
+    public ResponseWrapper<NewDeckResponse> createNewDeck() throws IOException {
         String url = String.format("%s/new/", baseUrl);
-        return executeGetRequest(url);
+        ResponseWrapper<String> rawResponse = executeGetRequest(url);
+        return new ResponseWrapper<>(
+                rawResponse.getStatusCode(),
+                mapJsonToType(rawResponse.getData(), NewDeckResponse.class),
+                rawResponse.getErrorMessage()
+        );
     }
 
-    public ResponseWrapper<String> drawCard(String deckId, int count) throws IOException {
+    public ResponseWrapper<CardDrawResponse> drawCard(String deckId, int count) throws IOException {
         String url = String.format("%s/%s/draw/?count=%d", baseUrl, deckId, count);
-        return executeGetRequest(url);
+        ResponseWrapper<String> rawResponse = executeGetRequest(url);
+        return new ResponseWrapper<>(
+                rawResponse.getStatusCode(),
+                mapJsonToType(rawResponse.getData(), CardDrawResponse.class),
+                rawResponse.getErrorMessage()
+        );
     }
 
-    public ResponseWrapper<String> createPile(String deckId, String pileName) throws IOException {
+    public ResponseWrapper<AddToPileResponse> createPile(String deckId, String pileName) throws IOException {
         String url = String.format("%s/%s/pile/%s/add/?cards=AS,2S", baseUrl, deckId, pileName);
-        return executeGetRequest(url);
+        ResponseWrapper<String> rawResponse = executeGetRequest(url);
+        return new ResponseWrapper<>(
+                rawResponse.getStatusCode(),
+                mapJsonToType(rawResponse.getData(), AddToPileResponse.class),
+                rawResponse.getErrorMessage()
+        );
     }
 
-    public ResponseWrapper<String> addToPile(String deckId, String pileName, int count) throws IOException {
+    public ResponseWrapper<AddToPileResponse> addToPile(String deckId, String pileName, int count) throws IOException {
         String url = String.format("%s/%s/pile/%s/add/?cards=bottom,%d", baseUrl, deckId, pileName, count);
-        return executeGetRequest(url);
+        ResponseWrapper<String> rawResponse = executeGetRequest(url);
+        return new ResponseWrapper<>(
+                rawResponse.getStatusCode(),
+                mapJsonToType(rawResponse.getData(), AddToPileResponse.class),
+                rawResponse.getErrorMessage()
+        );
     }
 
     public ResponseWrapper<String> shufflePile(String deckId, String pileName) throws IOException {
@@ -50,9 +74,14 @@ public class DeckOfCardsApi {
         return executeGetRequest(url);
     }
 
-    public ResponseWrapper<String> drawFromPile(String deckId, String pileName, int count) throws IOException {
+    public ResponseWrapper<DrawFromPileResponse> drawFromPile(String deckId, String pileName, int count) throws IOException {
         String url = String.format("%s/%s/pile/%s/draw/?count=%d", baseUrl, deckId, pileName, count);
-        return executeGetRequest(url);
+        ResponseWrapper<String> rawResponse = executeGetRequest(url);
+        return new ResponseWrapper<>(
+                rawResponse.getStatusCode(),
+                mapJsonToType(rawResponse.getData(), DrawFromPileResponse.class),
+                rawResponse.getErrorMessage()
+        );
     }
 
     private ResponseWrapper<String> executeGetRequest(String url) throws IOException {

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class NewDeckResponse {
     public Boolean success;
-    public String deckId;
+    public String deck_id;
     public Boolean shuffled;
     public Integer remaining;
 }

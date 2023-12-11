@@ -7,11 +7,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CardDrawResponse {
+public class DrawFromPileResponse {
 
     public Boolean success;
     public String deck_id;
-    public List<Card> cards;
     public Integer remaining;
-
+    public Piles piles;
+    public List<Card> cards;
 }

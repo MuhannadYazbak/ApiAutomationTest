@@ -69,9 +69,14 @@ public class DeckOfCardsApi {
         );
     }
 
-    public ResponseWrapper<String> shufflePile(String deckId, String pileName) throws IOException {
+    public ResponseWrapper<AddToPileResponse> shufflePile(String deckId, String pileName) throws IOException {
         String url = String.format("%s/%s/pile/%s/shuffle/", baseUrl, deckId, pileName);
-        return executeGetRequest(url);
+        ResponseWrapper<String> rawResponse = executeGetRequest(url);
+        return new ResponseWrapper<>(
+                rawResponse.getStatusCode(),
+                mapJsonToType(rawResponse.getData(), AddToPileResponse.class),
+                rawResponse.getErrorMessage()
+        );
     }
 
     public ResponseWrapper<DrawFromPileResponse> drawFromPile(String deckId, String pileName, int count) throws IOException {

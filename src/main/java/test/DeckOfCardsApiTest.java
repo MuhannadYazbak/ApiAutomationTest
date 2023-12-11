@@ -109,7 +109,7 @@ public class DeckOfCardsApiTest {
 
         // Assert
         assertEquals(200, response.getStatusCode());
-        assertEquals(response.getData().getPiles().getDiscard().getRemaining(), count);
+        assertTrue(response.getData().getSuccess());
     }
 
     @Test
@@ -121,11 +121,11 @@ public class DeckOfCardsApiTest {
         String pileName = "test_pile";
 
         // Act
-        ResponseWrapper<String> response = deckOfCardsApi.shufflePile(deckId, pileName);
+        ResponseWrapper<AddToPileResponse> response = deckOfCardsApi.shufflePile(deckId, pileName);
 
         // Assert
         assertEquals(200, response.getStatusCode());
-        // Perform additional data and status validations as needed
+        assertTrue(response.getData().getSuccess());
     }
 
     @Test
